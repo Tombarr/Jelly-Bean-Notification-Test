@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+
+
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +30,9 @@
             android:layout_rowSpan="2"
             android:onClick="showDefaultNotification"
             android:text="Default" />
-
+
+
+
         <Button
             android:id="@+id/type_old"
             android:layout_column="3"
@@ -139,6 +142,18 @@
             android:layout_column="5"
             android:layout_row="3" />
     </GridLayout>
+    
+    <EditText
+    	android:numeric="integer"
+    	android:inputType="number"
+    	android:lines="1"
+		android:maxLines="1"
+		android:maxLength="4"
+		android:singleLine="true"
+		android:text="0"
+    	android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/number" />
 
     <Switch
         android:id="@+id/type_buttons_switch"

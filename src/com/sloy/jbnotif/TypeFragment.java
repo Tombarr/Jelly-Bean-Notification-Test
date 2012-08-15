@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 
@@ -27,6 +29,8 @@ public class TypeFragment extends Fragment {
 	private Randomizer mRandomizer;
 
 	private Switch mButtonsEnabled;
+	
+	private EditText mNumberBox;
 
 	private RadioGroup mButtonsGroup;
 
@@ -84,6 +88,7 @@ public class TypeFragment extends Fragment {
 					}
 				}
 
+				notif.number = getCount();
 				mContext.sendNotification(notif);
 			}
 
@@ -94,6 +99,7 @@ public class TypeFragment extends Fragment {
 		mOld = (Button) v.findViewById(R.id.type_old);
 		mDefault.setOnClickListener(listener);
 		mOld.setOnClickListener(listener);
+		mNumberBox = (EditText) v.findViewById(R.id.number);
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 			// Jelly Bean only
@@ -121,7 +127,14 @@ public class TypeFragment extends Fragment {
 		mContext = (MainActivity) getActivity();
 
 		mRandomizer = new Randomizer(mContext);
-
+	}
+	
+	public final int getCount() {
+		try {
+			return Integer.parseInt(mNumberBox.getText().toString(), 10);
+		} catch (NumberFormatException e) {
+			return 0;
+		}
 	}
 
 	@SuppressWarnings("deprecation")
@@ -129,6 +142,7 @@ public class TypeFragment extends Fragment {
 		builder
 				.setSmallIcon(R.drawable.ic_launcher)
 				.setWhen(System.currentTimeMillis())
+				.setNumber(getCount())
 				.setContentTitle("Default notification")
 				.setContentText("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
 				.setContentInfo("Info")
@@ -148,6 +162,7 @@ public class TypeFragment extends Fragment {
 				.setContentTitle("Reduced BigText title")
 				.setContentText("Reduced content")
 				.setContentInfo("Info")
+				.setNumber(getCount())
 				.setSmallIcon(R.drawable.ic_launcher)
 				.setLargeIcon(mRandomizer.getRandomImage());
 
@@ -168,6 +183,7 @@ public class TypeFragment extends Fragment {
 				.setContentTitle("Reduced BigPicture title")
 				.setContentText("Reduced content")
 				.setContentInfo("Info")
+				.setNumber(getCount())
 				.setSmallIcon(R.drawable.ic_launcher)
 				.setLargeIcon(large);
 
@@ -184,6 +200,7 @@ public class TypeFragment extends Fragment {
 				.setContentTitle("Reduced Inbox title")
 				.setContentText("Reduced content")
 				.setContentInfo("Info")
+				.setNumber(getCount())
 				.setSmallIcon(R.drawable.ic_launcher)
 				.setLargeIcon(mRandomizer.getRandomImage());
 
@@ -193,7 +210,7 @@ public class TypeFragment extends Fragment {
 
 		// Add 10 lines
 		for (int i = 0; i < 10; i++) {
-			n.addLine("This is the line nº " + (i + 1));
+			n.addLine("This is the line n=" + (i + 1));
 		}
 
 		return n.build();
@@ -201,6 +218,7 @@ public class TypeFragment extends Fragment {
 
 	private Notification getOldNotification() {
 		Notification notif = new Notification(R.drawable.ic_launcher, null, System.currentTimeMillis());
+		notif.number = getCount();
 		notif.setLatestEventInfo(mContext, "Old title", "Old notification content text", PendingIntent.getActivity(mContext, 0, new Intent(), 0));
 		return notif;
 	}
